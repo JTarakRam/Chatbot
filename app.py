@@ -2,22 +2,19 @@ import streamlit as st
 import json
 import os
 
+# Load the index
+# index_path = '/Users/tarakram/Documents/Chatbot/index'
+# with open(index_path, 'r') as f:
+#     index = json.load(f)
+
 from llama_index import StorageContext, load_index_from_storage
-# Read the OpenAI API key from an environment variable
+from secret_key import openapi_key
 
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-
-# Check if the API key is available
-if openai_api_key is None:
-    st.error("OpenAI API key not found.")
-    st.stop()
-
-# Set the OpenAI API key
-os.environ["OPENAI_API_KEY"] = openai_api_key
-os.environ["OMP_NUM_THREADS"] = "4" 
+os.environ["OPENAI_API_KEY"] = openapi_key
+os.environ["OMP_NUM_THREADS"] = "4"  # Replace 4 with the appropriate L2 cache size
 
 # rebuild storage context
-storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/Chatbot/index')
+storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot')
 # load index
 index = load_index_from_storage(storage_context)
 
@@ -33,7 +30,7 @@ class Chatbot:
         openai.api_key = api_key
         self.user_id = user_id
         self.chat_history = []
-        self.filename = f"{self.user_id}_chat_history.json"
+        self.filename = f"{self.user_id}_chat.json"
 
     def generate_response(self, user_input):
         prompt = "\n".join([f"{message['role']}: {message['content']}" for message in self.chat_history[-5:]])
