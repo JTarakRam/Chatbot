@@ -11,7 +11,7 @@ from llama_index import StorageContext, load_index_from_storage
 from secret_key import openapi_key
 
 os.environ["OPENAI_API_KEY"] = openapi_key
-os.environ["OMP_NUM_THREADS"] = "4"  # Replace 4 with the appropriate L2 cache size
+os.environ["OMP_NUM_THREADS"] = "12" 
 
 # rebuild storage context
 storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot')
