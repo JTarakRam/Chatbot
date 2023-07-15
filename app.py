@@ -19,6 +19,7 @@ if openai_api_key is None:
 
 # Set the OpenAI API key
 os.environ["OPENAI_API_KEY"] = openai_api_key
+os.environ["OMP_NUM_THREADS"] = "4" 
 
 # rebuild storage context
 storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/Chatbot/index')
