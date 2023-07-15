@@ -2,32 +2,36 @@ import streamlit as st
 import json
 import os
 
-# Load the index
-# index_path = '/Users/tarakram/Documents/Chatbot/index'
-# with open(index_path, 'r') as f:
-#     index = json.load(f)
-
 from llama_index import StorageContext, load_index_from_storage
 from secret_key import openapi_key
 
 os.environ["OPENAI_API_KEY"] = openapi_key
-os.environ["OMP_NUM_THREADS"] = "12" 
+os.environ["OMP_NUM_THREADS"] = "12"  # Set the L2 cache size to 12MB
 
-# rebuild storage context
-storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot')
-# load index
-index = load_index_from_storage(storage_context)
+import os
+
+# Specify the paths of your JSON files
+json_files = [
+    '/Users/tarakram/Documents/MvChatbot/docstore.json',
+    '/Users/tarakram/Documents/MvChatbot/index_store.json',
+    '/Users/tarakram/Documents/MvChatbot/graph_store.json',
+    '/Users/tarakram/Documents/MvChatbot/vector_store.json',
+]
+
+# Create an empty list to store the loaded indices
+indices = []
+
+# Load each JSON file into a separate index
+for file in json_files:
+    directory = os.path.dirname(file)
+    storage_context = StorageContext.from_defaults(persist_dir=directory)
+    index = load_index_from_storage(storage_context)
+    indices.append(index)
 
 # Create the chatbot
-# Chat Bot 
-
-import openai
-import json
-
 class Chatbot:
-    def __init__(self, api_key, index, user_id):
-        self.index = index
-        openai.api_key = api_key
+    def __init__(self, api_key, indices, user_id):
+        self.indices = indices
         self.user_id = user_id
         self.chat_history = []
         self.filename = f"{self.user_id}_chat.json"
@@ -35,10 +39,15 @@ class Chatbot:
     def generate_response(self, user_input):
         prompt = "\n".join([f"{message['role']}: {message['content']}" for message in self.chat_history[-5:]])
         prompt += f"\nUser: {user_input}"
-        query_engine = index.as_query_engine()
-        response = query_engine.query(user_input)
 
-        message = {"role": "assistant", "content": response.response}
+        # Query all indices and collect responses
+        responses = []
+        for index in self.indices:
+            query_engine = index.as_query_engine()
+            response = query_engine.query(user_input)
+            responses.append(response.response)
+
+        message = {"role": "assistant", "content": responses}
         self.chat_history.append({"role": "user", "content": user_input})
         self.chat_history.append(message)
         return message
@@ -53,7 +62,7 @@ class Chatbot:
     def save_chat_history(self):
         with open(self.filename, 'w') as f:
             json.dump(self.chat_history, f)
-            
+
 # Streamlit app
 def main():
     st.title("Chatbot")
@@ -64,7 +73,7 @@ def main():
     # Check if user ID is provided
     if user_id:
         # Create chatbot instance for the user
-        bot = Chatbot(openapi_key, index, user_id)
+        bot = Chatbot(openapi_key, indices, user_id)
 
         # Load chat history
         bot.load_chat_history()
