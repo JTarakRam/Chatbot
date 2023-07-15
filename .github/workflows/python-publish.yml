@@ -13,6 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -20,15 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install langchain
-          pip install faiss-cpu
-          pip install openai
-          pip install llama_index
+          pip install -r requirements.txt
 
       - name: Deploy the model
         run: |
           # Set the OpenAI API key
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
 
-          # Run your streamlit application
-          streamlit run your_streamlit_app.py
+          # Run your Streamlit application
+          streamlit run app.py
