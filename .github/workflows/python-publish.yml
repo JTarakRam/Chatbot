@@ -29,6 +29,7 @@ jobs:
           pip install faiss-cpu
           pip install openai
           pip install llama_index
+          pip install streamlit
 
       - name: Deploy the model
         run: |
