@@ -2,11 +2,6 @@ import streamlit as st
 import json
 import os
 
-# Load the index
-# index_path = '/Users/tarakram/Documents/Chatbot/index'
-# with open(index_path, 'r') as f:
-#     index = json.load(f)
-
 from llama_index import StorageContext, load_index_from_storage
 # Read the OpenAI API key from an environment variable
 
