@@ -6,10 +6,19 @@ import os
 # index_path = '/Users/tarakram/Documents/Chatbot/index'
 # with open(index_path, 'r') as f:
 #     index = json.load(f)
-from llama_index import StorageContext, load_index_from_storage
-from secret_key import openapi_key
 
-os.environ["OPENAI_API_KEY"] = openapi_key
+from llama_index import StorageContext, load_index_from_storage
+# Read the OpenAI API key from an environment variable
+
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+
+# Check if the API key is available
+if openai_api_key is None:
+    st.error("OpenAI API key not found.")
+    st.stop()
+
+# Set the OpenAI API key
+os.environ["OPENAI_API_KEY"] = openai_api_key
 
 # rebuild storage context
 storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/Chatbot/index')
