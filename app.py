@@ -12,10 +12,10 @@ import os
 
 # Specify the paths of your JSON files
 json_files = [
-    '/Users/tarakram/Documents/MvChatbot/docstore.json',
-    '/Users/tarakram/Documents/MvChatbot/index_store.json',
-    '/Users/tarakram/Documents/MvChatbot/graph_store.json',
-    '/Users/tarakram/Documents/MvChatbot/vector_store.json',
+    'docstore.json',
+    'index_store.json',
+    'graph_store.json',
+    'vector_store.json',
 ]
 
 # Create an empty list to store the loaded indices
@@ -88,7 +88,7 @@ def main():
         # Generate response
         if user_input:
             if user_input.lower() in ["bye", "goodbye"]:
-                bot_response = "Goodbye!"
+                return "Good Bye !"
             else:
                 bot_response = bot.generate_response(user_input)
                 bot_response_content = bot_response['content']
