@@ -4,10 +4,10 @@ import os
 
 # Specify the paths to the JSON files within the 'index' directory
 index_files = [
-    '/Users/tarakram/Documents/MvChatbot/index/docstore.json',
-    '/Users/tarakram/Documents/MvChatbot/index/graph_store.json',
-    '/Users/tarakram/Documents/MvChatbot/index/index_store.json',
-    '/Users/tarakram/Documents/MvChatbot/index/vector_store.json'
+    'index/docstore.json',
+    'index/graph_store.json',
+    'index/index_store.json',
+    'index/vector_store.json'
 ]
 
 indices = []
