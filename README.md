@@ -16,7 +16,7 @@ To use the chatbot, you need to obtain an API key from OpenAI. Follow the instru
 
 1. Sign up for an account on the OpenAI website.
 2. Once you have an account, obtain your API key.
-3. Set the API key in the appropriate code file (`chatbot.py` or `app.py`) by replacing `'Add your API Key here'` with your actual API key.
+3. Set the API key in the appropriate code file `app.py` by replacing `'Add your API Key here'` with your actual API key.
 
 ## Building the Chatbot
 
