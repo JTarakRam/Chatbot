@@ -20,9 +20,8 @@ for file in index_files:
 
 from llama_index import StorageContext, load_index_from_storage
 from secret_key import openapi_key
-os.environ["OPENAI_API_KEY"] = openapi_key
 
-api_key = os.environ.get('OPENAI_API_KEY')
+os.environ["OPENAI_API_KEY"] = openapi_key
 
 # Rebuild storage context
 storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot/index')
