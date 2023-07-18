@@ -19,9 +19,6 @@ for file in index_files:
         indices.append(index)
 
 from llama_index import StorageContext, load_index_from_storage
-from secret_key import openapi_key
-
-os.environ["OPENAI_API_KEY"] = openapi_key
 
 # Rebuild storage context
 storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot/index')
@@ -60,7 +57,10 @@ class Chatbot:
     def save_chat_history(self):
         with open(self.filename, 'w') as f:
             json.dump(self.chat_history, f)
-            
+
+# Retrieve the API key from the environment variable
+api_key = os.environ.get('OPENAI_API_KEY')
+
 # Streamlit app
 def main():
     st.title("Chatbot")
@@ -71,7 +71,7 @@ def main():
     # Check if user ID is provided
     if user_id:
         # Create chatbot instance for the user
-        bot = Chatbot(openapi_key, index, user_id)
+        bot = Chatbot(api_key, index, user_id)
 
         # Load chat history
         bot.load_chat_history()
