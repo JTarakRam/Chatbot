@@ -24,7 +24,7 @@ from secret_key import openapi_key
 os.environ["OPENAI_API_KEY"] = openapi_key
 
 # Rebuild storage context
-storage_context = StorageContext.from_defaults(persist_dir='/Users/tarakram/Documents/MvChatbot/index')
+storage_context = StorageContext.from_defaults(persist_dir='index')
 # Load index
 index = load_index_from_storage(storage_context)
 
